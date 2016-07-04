@@ -177,7 +177,9 @@ var minesG = function (size, density) {
                     field.callSiblings(function (siblingField) {
                         if (siblingField !== null && siblingField.mine === 0){
                             siblingField.value += 1;
-                            totalCellsToFind++;
+                            if(siblingField.value === 1){
+                                totalCellsToFind++;
+                            }
                         }
                     });
                 }
