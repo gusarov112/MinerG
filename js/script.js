@@ -12,7 +12,7 @@ var minesG = function (size, density) {
     if (density > 0 && density < .99) {
         options.density = density;
     }
-    var matrix = [], canvas = (function () {
+    var matrix = [], totalCellsToFind = 0,canvas = (function () {
             var canvasEl = document.querySelector('#canvas'),
                 fillCanvas = function () {
                     canvasEl.innerHTML = '';
@@ -175,8 +175,10 @@ var minesG = function (size, density) {
             this.setSiblingsValue = (function (field) {
                 return function () {
                     field.callSiblings(function (siblingField) {
-                        if (siblingField !== null && siblingField.mine === 0)
+                        if (siblingField !== null && siblingField.mine === 0){
                             siblingField.value += 1;
+                            totalCellsToFind++;
+                        }
                     });
                 }
             })(this);
@@ -196,6 +198,7 @@ var minesG = function (size, density) {
                         if (classes.hasOwnProperty(field.value + "")) {
                             span.className = classes[field.value];
                         }
+                        totalCellsToFind--;
                         field.td.appendChild(span);
                     }
                     field.played = true;
@@ -206,6 +209,10 @@ var minesG = function (size, density) {
         gamePlay = function (field) {
 
             field.play();
+            if(!totalCellsToFind){
+                canvas.openAll();
+                alert('You win!!!');
+            }
             if (field.mine === 1) {
                 field.td.className += ' bg-red';
                 //game over
