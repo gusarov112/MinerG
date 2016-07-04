@@ -60,10 +60,10 @@ var minesG = function (size, density) {
                     var _processInner = function (siblingField, _field) {
                         if (siblingField !== null
                             && siblingField.played === false
-                            && siblingField.value === 0
                             && (siblingField.x === _field.x || siblingField.y === _field.y)) {
                             siblingField.play();
-                            siblingField.callSiblings(_processInner);
+                            if(siblingField.value === 0)
+                                siblingField.callSiblings(_processInner);
                         }
                     };
                     field.callSiblings(_processInner);
