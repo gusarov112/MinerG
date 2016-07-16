@@ -59,10 +59,14 @@ var minesG = function (size, density) {
                 processEmptySiblings = function (field) {
                     var _processInner = function (siblingField, _field) {
                         if (siblingField !== null
-                            && siblingField.played === false
-                            && (siblingField.x === _field.x || siblingField.y === _field.y)) {
-                            siblingField.play();
-                            if(siblingField.value === 0)
+                            && siblingField.played === false) {
+                            var isOnXAxis = siblingField.x === _field.x,
+                                isOnYAxis = siblingField.y === _field.y,
+                                siblingIsEmpty = siblingField.value === 0,
+                                fieldIsEmpty = _field.value === 0;
+                            if(isOnXAxis || isOnYAxis || fieldIsEmpty)
+                                siblingField.play();
+                            if(siblingIsEmpty)
                                 siblingField.callSiblings(_processInner);
                         }
                     };
@@ -226,6 +230,9 @@ var minesG = function (size, density) {
                 }, 300);
             } else if (field.value === 0) {
                 canvas.processEmptySiblings(field);
+                if(!totalCellsToFind) {
+                    alert('You win!!!');
+                }
             }
         };
     canvas.start();
