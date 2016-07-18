@@ -9,11 +9,17 @@
 <body align="center">
 <div id="main">
     <div class="form">
-        <label for="density">Density</label>
-        <input type="number" min="0.01" max="0.99" step="0.01" value="0.1" id="density">
+        <label for="density">Level</label>
+        <select id="density">
+            <option value="0.1">Easy</option>
+            <option value="0.15">Medium</option>
+            <option value="0.2">Hard</option>
+        </select>
         <label for="size">Size</label>
         <input type="number" min="10" max="100" step="10" value="10" id="size">
         <button onclick="playMiner()">Play!</button>
+        <br>
+        Moves: <span id="moves">0</span>, Mines: <span id="mines-total">0</span>
     </div>
     <table id="canvas" cellpadding="0" cellspacing="0"></table>
 </div>

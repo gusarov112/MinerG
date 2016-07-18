@@ -61,7 +61,7 @@ input.hidden {
     font-size: 20px;
 }
 
-.form input {
+.form input, .form select {
     width: 65px;
     background: #fff;
     border-radius: 4px;
@@ -70,7 +70,9 @@ input.hidden {
     font-size: 20px;
     text-align: center;
 }
-
+.form select {
+    width: auto;
+}
 .form button {
     font-size: 25px;
     background: green;

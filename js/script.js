@@ -12,14 +12,17 @@ var minesG = function (size, density) {
     if (density > 0 && density < .99) {
         options.density = density;
     }
-    var matrix = [], totalCellsToFind = 0,canvas = (function () {
+    var matrix = [], totalCellsToFind = 0, moves = 0, canvas = (function () {
             var canvasEl = document.querySelector('#canvas'),
+                minesTotalEl = document.querySelector('#mines-total'),
                 fillCanvas = function () {
                     canvasEl.innerHTML = '';
                     matrix = [];
                     var totalSize = Math.pow(options.size, 2),
                         totalDensity = Math.floor(totalSize * options.density),
                         minesCache = [];
+                    minesTotalEl.innerText = totalDensity;
+                    movesCounterEl.innerText = 0;
                     for (var y = 0; y <= options.size; y++) {
                         var tr = document.createElement('tr');
                         canvasEl.appendChild(tr);
@@ -200,9 +203,10 @@ var minesG = function (size, density) {
                         field.td.appendChild(span);
                     } else if (field.value > 0) {
                         span.innerText = field.value;
+                        var classVal = field.value > 3 ? '3' : field.value + "";
                         var classes = {1: 'blue', 2: 'green', 3: 'red'};
-                        if (classes.hasOwnProperty(field.value + "")) {
-                            span.className = classes[field.value];
+                        if (classes.hasOwnProperty(classVal)) {
+                            span.className = classes[classVal];
                         }
                         totalCellsToFind--;
                         field.td.appendChild(span);
@@ -212,9 +216,15 @@ var minesG = function (size, density) {
             })(this);
             return this;
         },
+        movesCounterEl = document.querySelector('#moves'),
+        incrementMoves = function(){
+            moves++;
+            movesCounterEl.innerText = moves;
+        },
         gamePlay = function (field) {
 
             field.play();
+            incrementMoves();
             if(!totalCellsToFind){
                 canvas.openAll();
                 alert('You win!!!');
@@ -239,4 +249,4 @@ var minesG = function (size, density) {
 };
 var playMiner = function () {
     minesG(document.querySelector('#size').value, document.querySelector('#density').value);
-}
+};
